@@ -1,2 +1,7 @@
+## Overview
 Tutorial test from official guide.
 https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+
+## Adjustments
+• Configure to operate in the Tokyo region (ap-northeast-1) by specifying the VPC subnet ID in variables.tf > variable "instance_subnet"
+• Remove terraform.tfstate.backup files from the initial commit
