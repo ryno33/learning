@@ -1,0 +1,201 @@
+<!-- 
+// 四柱推命計算表示HTML
+// Author: claude.ai and me
+// Model: Claude Sonnet 4
+// Date: 2025/08/03
+ -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四柱推命計算</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: inline-block;
+            margin: 10px 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .input-group input, .input-group select {
+            padding: 8px 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 80px;
+        }
+        .output {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 100px;
+        }
+        .button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+        .button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 四柱推命計算機 🌟</h1>
+        
+        <div class="input-section">
+            <h3>生年月日時を入力してください</h3>
+            <div class="input-group">
+                <label for="year">年</label>
+                <input type="number" id="year" min="1900" max="2100" value="1991">
+            </div>
+            <div class="input-group">
+                <label for="month">月</label>
+                <select id="month">
+                    <option value="1" selected>12月</option>
+                    <option value="2">2月</option>
+                    <option value="3">3月</option>
+                    <option value="4">4月</option>
+                    <option value="5">5月</option>
+                    <option value="6">6月</option>
+                    <option value="7">7月</option>
+                    <option value="8">8月</option>
+                    <option value="9">9月</option>
+                    <option value="10">10月</option>
+                    <option value="11">11月</option>
+                    <option value="12">12月</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="day">日</label>
+                <input type="number" id="day" min="1" max="31" value="14">
+            </div>
+            <div class="input-group">
+                <label for="hour">時</label>
+                <select id="hour">
+                    <option value="0">0時</option>
+                    <option value="1" selected>1時</option>
+                    <option value="2">2時</option>
+                    <option value="3">3時</option>
+                    <option value="4">4時</option>
+                    <option value="5">5時</option>
+                    <option value="6">6時</option>
+                    <option value="7">7時</option>
+                    <option value="8">8時</option>
+                    <option value="9">9時</option>
+                    <option value="10">10時</option>
+                    <option value="11">11時</option>
+                    <option value="12">12時</option>
+                    <option value="13">13時</option>
+                    <option value="14">14時</option>
+                    <option value="15">15時</option>
+                    <option value="16">16時</option>
+                    <option value="17">17時</option>
+                    <option value="18">18時</option>
+                    <option value="19">19時</option>
+                    <option value="20">20時</option>
+                    <option value="21">21時</option>
+                    <option value="22">22時</option>
+                    <option value="23">23時</option>
+                </select>
+            </div>
+        </div>
+        
+        <button class="button" onclick="calculateFourPillars()">四柱推命を計算</button>
+        <button class="button" onclick="clearOutput()">結果をクリア</button>
+        
+        <div id="output" class="output">生年月日時を入力して「四柱推命を計算」ボタンを押してください。</div>
+    </div>
+
+    <!-- 外部JSファイルを読み込み -->
+    <script src="./fourPillarsAstrology.js"></script>
+    
+    <script>
+        function calculateFourPillars() {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            const day = parseInt(document.getElementById('day').value);
+            const hour = parseInt(document.getElementById('hour').value);
+            
+            // 入力値検証
+            if (!year || !month || !day || hour === null) {
+                showOutput("エラー: すべての項目を入力してください。", true);
+                return;
+            }
+            
+            if (year < 1900 || year > 2100) {
+                showOutput("エラー: 年は1900年から2100年の間で入力してください。", true);
+                return;
+            }
+            
+            // 外部JSファイルの関数を呼び出し
+            try {
+                const result = calculateFourPillarsAstrology(year, month, day, hour);
+                showOutput(result);
+            } catch (error) {
+                showOutput("計算エラー: " + error.message, true);
+            }
+        }
+        
+        function showOutput(text, isError = false) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = text;
+            outputDiv.className = isError ? 'output error' : 'output';
+        }
+        
+        function clearOutput() {
+            document.getElementById('output').textContent = '生年月日時を入力して「四柱推命を計算」ボタンを押してください。';
+            document.getElementById('output').className = 'output';
+        }
+    </script>
+</body>
+</html>
