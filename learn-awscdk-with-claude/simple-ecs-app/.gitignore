@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+.env
+.venv/
+venv/
+ENV/
+bin/
+lib/
+share/
+
+# CDK
+cdk.out/
+cdk.context.json
+*.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# AWS
+.aws/
+credentials
+config
+
+# 個人情報
+my-ip.txt
+local-config.py
